@@ -123,7 +123,7 @@
             height: 180px;
             object-fit: cover;
             border-radius: 4px;
-            background-color: #ffd70033; /* Fondo amarillo tenue por si no carga la foto aún */
+            background-color: #ffd70033;
         }
 
         /* Efecto de lluvia de corazones */
@@ -195,26 +195,26 @@
             Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envié esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
         </div>
 
-        <!-- SECCIÓN DE NUESTRAS MEMORIAS -->
+        <!-- SECCIÓN DE NUESTRAS MEMORIAS CORREGIDA CON ENLACES .JPEG -->
         <h2 class="galeria-titulo">Nuestros Momentos Juntos 💕</h2>
         <div class="grid-fotos">
             <div class="foto-card" style="--rotar-foto: -3deg;">
-                <img src="foto1.jpg" alt="Momento 1">
+                <img src="foto1.jpeg" alt="Momento 1">
             </div>
             <div class="foto-card" style="--rotar-foto: 4deg;">
-                <img src="foto2.jpg" alt="Momento 2">
+                <img src="foto2.jpeg" alt="Momento 2">
             </div>
             <div class="foto-card" style="--rotar-foto: -2deg;">
-                <img src="foto3.jpg" alt="Momento 3">
+                <img src="foto3.jpeg" alt="Momento 3">
             </div>
             <div class="foto-card" style="--rotar-foto: 3deg;">
-                <img src="foto4.jpg" alt="Momento 4">
+                <img src="foto4.jpeg" alt="Momento 4">
             </div>
             <div class="foto-card" style="--rotar-foto: -4deg;">
-                <img src="foto5.jpg" alt="Momento 5">
+                <img src="foto5.jpeg" alt="Momento 5">
             </div>
             <div class="foto-card" style="--rotar-foto: 2deg;">
-                <img src="foto6.jpg" alt="Momento 6">
+                <img src="foto6.jpeg" alt="Momento 6">
             </div>
         </div>
     </div>
@@ -228,16 +228,19 @@
         let lluviaInterval;
 
         function iniciarWeb() {
-            // Ocultar pantalla de inicio forzosamente
             document.getElementById('pantalla-inicio').style.display = 'none';
             
-            // Mostrar el contenedor de la carta y activar scroll completo
             const container = document.getElementById('contenido-principal');
             container.style.display = 'block';
             document.body.style.overflow = 'auto';
 
-            // Activar música de fondo de forma segura
             const musica = document.getElementById('musica-fondo');
             musica.volume = 0.4;
             musica.play().catch(e => console.log("Error de audio:", e));
 
+            lluviaInterval = setInterval(crearCorazon, 300);
+        }
+
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon');
