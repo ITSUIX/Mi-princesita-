@@ -13,7 +13,7 @@
         body {
             background-color: #fff0f5;
             font-family: 'Arial', sans-serif;
-            overflow: hidden; 
+            overflow-x: hidden; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -21,9 +21,8 @@
             min-height: 100vh;
             padding: 20px;
             text-align: center;
-            position: relative;
         }
-        /* Pantalla de inicio para activar la música */
+        /* Pantalla de inicio limpia y segura */
         #pantalla-inicio {
             position: fixed;
             top: 0;
@@ -31,12 +30,11 @@
             width: 100%;
             height: 100%;
             background-color: #fff0f5;
-            z-index: 100; /* Asegura que esté al frente de todo */
+            z-index: 999; /* Máxima prioridad al inicio */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.5s ease;
         }
         .btn-comenzar {
             background-color: #ff69b4;
@@ -51,57 +49,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            position: relative;
-            z-index: 101; /* El botón se ubica por encima de su propio fondo */
         }
         .texto-inicio {
             color: #4a4a4a;
             font-size: 1.2rem;
             margin-bottom: 25px;
             font-weight: bold;
-        }
-        /* Contenedor de la Animación del Florecimiento */
-        #escena-flor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff0f5;
-            z-index: 10; /* Se mantiene atrás hasta que se oculte el inicio */
-            opacity: 1;
-            transition: opacity 1.5s ease; 
-            pointer-events: none; /* Evita por completo bloquear clics */
-        }
-        .svg-flor {
-            width: 300px;
-            height: 300px;
-        }
-        /* Girasol decorativo debajo de la carta */
-        .girasol-decorativo {
-            width: 180px;
-            height: 180px;
-            margin: 10px auto 0 auto;
-            display: block;
-            animation: suaveFlotar 4s ease-in-out infinite;
-        }
-        /* Estilos de los pétalos */
-        .petalo {
-            fill: #ffd700;
-            stroke: #ffa500;
-            stroke-width: 1;
-            transform-origin: 150px 150px;
-            transform: scale(0);
-            animation: crecerPetalo 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        .centro-flor {
-            fill: #8b4513;
-            transform-origin: 150px 150px;
-            transform: scale(0);
-            animation: crecerCentro 2s 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         /* Contenedor principal de la carta */
         .container {
@@ -111,11 +64,9 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
             border: 2px solid #ffb6c1;
-            z-index: 20;
+            z-index: 10;
             position: relative;
             display: none; 
-            opacity: 0;
-            transition: opacity 1s ease;
         }
         h1 {
             color: #ff69b4;
@@ -129,6 +80,28 @@
             margin-bottom: 10px;
             white-space: pre-line;
         }
+        /* Animación del Girasol */
+        .girasol-decorativo {
+            width: 180px;
+            height: 180px;
+            margin: 20px auto 0 auto;
+            display: block;
+            animation: suaveFlotar 4s ease-in-out infinite;
+        }
+        .petalo {
+            fill: #ffd700;
+            stroke: #ffa500;
+            stroke-width: 1;
+            transform-origin: 150px 150px;
+            transform: scale(0);
+            animation: crecerPetalo 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .centro-flor {
+            fill: #8b4513;
+            transform-origin: 150px 150px;
+            transform: scale(0);
+            animation: crecerCentro 1.8s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
         /* Efecto de lluvia de corazones */
         .corazon {
             position: fixed;
@@ -138,7 +111,7 @@
             z-index: 1;
             pointer-events: none;
         }
-        /* Animaciones CSS */
+        /* Animaciones CSS estándares */
         @keyframes crecerPetalo {
             0% { transform: scale(0) rotate(var(--rotacion, 0deg)); }
             100% { transform: scale(1) rotate(var(--rotacion, 0deg)); }
@@ -161,17 +134,13 @@
 </head>
 <body>
 
+    <!-- PANTALLA DE INICIO (Completamente despejada) -->
     <div id="pantalla-inicio">
         <p class="texto-inicio">Dale clic para abrir tu detalle de amor 💖</p>
         <button class="btn-comenzar" onclick="iniciarWeb()">Abrir 💝</button>
     </div>
 
-    <!-- ESCENA INTERMEDIA: Flor Inicial -->
-    <div id="escena-flor">
-        <svg class="svg-flor" viewBox="0 0 300 300" id="flor-svg"></svg>
-    </div>
-
-    <!-- CARTA FINAL -->
+    <!-- CARTA DE AMOR -->
     <div class="container" id="contenido-principal">
         <h1>Para mi Princesita 💖</h1>
         
@@ -183,10 +152,11 @@
             Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envié esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
         </div>
 
-        <!-- El Girasol abajo de la carta -->
+        <!-- El Girasol dinámico abajo del texto -->
         <svg class="girasol-decorativo" viewBox="0 0 300 300" id="flor-abajo-svg"></svg>
     </div>
 
+    <!-- Reproductor de audio -->
     <audio id="musica-fondo" loop>
         <source src="musica.mp3.mp3" type="audio/mpeg">
         Tu navegador no soporta este formato de audio.
@@ -196,7 +166,10 @@
         let lluviaInterval;
         const totalPetalos = 24;
 
-        function construirGirasol(svgElement, conRetrasoAnimate) {
+        // Función para renderizar el hermoso girasol
+        function construirGirasol() {
+            const svgElement = document.getElementById('flor-abajo-svg');
+            
             for (let i = 0; i < totalPetalos; i++) {
                 const angle = (360 / totalPetalos) * i;
                 const path = document.createElementNS("http://w3.org", "path");
@@ -205,12 +178,9 @@
                 
                 path.style.setProperty('--rotacion', `${angle}deg`);
                 path.style.transform = `rotate(${angle}deg) scale(0)`;
+                // Retraso para simular florecimiento natural
+                path.style.animationDelay = `${i * 0.04}s`;
                 
-                if (conRetrasoAnimate) {
-                    path.style.animationDelay = `${i * 0.03}s`;
-                } else {
-                    path.style.animationDelay = '0s';
-                }
                 svgElement.appendChild(path);
             }
 
@@ -219,45 +189,27 @@
             centro.setAttribute("cy", "150");
             centro.setAttribute("r", "45");
             centro.classList.add('centro-flor');
-            if (!conRetrasoAnimate) centro.style.animationDelay = '0s';
+            centro.style.animationDelay = '0.5s';
             svgElement.appendChild(centro);
         }
 
-        const svgInicial = document.getElementById('flor-svg');
-        const svgAbajo = document.getElementById('flor-abajo-svg');
-        
-        construirGirasol(svgInicial, true);  
-        construirGirasol(svgAbajo, false);  
-
         function iniciarWeb() {
-            const pantallaInicio = document.getElementById('pantalla-inicio');
-            pantallaInicio.style.opacity = '0';
+            // Ocultar botón inmediatamente
+            document.getElementById('pantalla-inicio').style.display = 'none';
             
+            // Mostrar la carta de amor 
+            document.getElementById('contenido-principal').style.display = 'block';
+            
+            // Renderizar y activar el florecimiento del Girasol abajo
+            construirGirasol();
+
+            // Activar la canción
             const musica = document.getElementById('musica-fondo');
             musica.volume = 0.4;
             musica.play().catch(e => console.log("Error de audio:", e));
 
-            setTimeout(() => {
-                pantallaInicio.style.display = 'none';
-                
-                const escenaFlor = document.getElementById('escena-flor');
-                escenaFlor.style.display = 'flex';
-
-                setTimeout(() => {
-                    escenaFlor.style.opacity = '0'; 
-
-                    setTimeout(() => {
-                        escenaFlor.style.display = 'none';
-                        
-                        const carta = document.getElementById('contenido-principal');
-                        carta.style.display = 'block';
-                        setTimeout(() => { carta.style.opacity = '1'; }, 50);
-
-                        lluviaInterval = setInterval(crearCorazon, 300);
-                        document.body.style.overflowY = 'auto'; 
-                    }, 1500); 
-                }, 4000); 
-            }, 500);
+            // Iniciar lluvia de corazones
+            lluviaInterval = setInterval(crearCorazon, 300);
         }
 
         function crearCorazon() {
@@ -267,3 +219,14 @@
             const tipos = ['💖', '💝', '❤️', '💕', '💗'];
             corazon.innerText = tipos[Math.floor(Math.random() * tipos.length)];
             
+            corazon.style.left = Math.random() * 100 + 'vw';
+            corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
+            corazon.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
+            
+            document.body.appendChild(corazon);
+            
+            setTimeout(() => { corazon.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
