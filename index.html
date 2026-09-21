@@ -22,6 +22,41 @@
             padding: 20px;
             text-align: center;
         }
+        /* Pantalla de inicio para activar la música */
+        #pantalla-inicio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff0f5;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        .btn-comenzar {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
+            animation: latido 1.5s infinite;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .texto-inicio {
+            color: #4a4a4a;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
         /* Contenedor principal */
         .container {
             max-width: 600px;
@@ -32,6 +67,7 @@
             border: 2px solid #ffb6c1;
             z-index: 10;
             position: relative;
+            display: none; /* Se muestra al dar clic */
         }
         h1 {
             color: #ff69b4;
@@ -43,11 +79,11 @@
             font-size: 1.1rem;
             line-height: 1.8;
             margin-bottom: 30px;
-            white-space: pre-line; /* Mantiene los saltos de línea */
+            white-space: pre-line;
         }
         /* El Ramo Gigante de Flores Amarillas */
         .ramo-container {
-            font-size: 6.5rem; /* Tamaño gigante */
+            font-size: 6.5rem;
             line-height: 1;
             margin-top: 20px;
             animation: flotar 3s ease-in-out infinite;
@@ -67,19 +103,27 @@
         }
         /* Animaciones */
         @keyframes caer {
-            to {
-                transform: translateY(110vh) translateX(50px);
-            }
+            to { transform: translateY(110vh) translateX(50px); }
         }
         @keyframes flotar {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        @keyframes latido {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Pantalla previa obligatoria para que suene la música -->
+    <div id="pantalla-inicio">
+        <p class="texto-inicio">Dale clic para abrir tu detalle de amor 💖</p>
+        <button class="btn-comenzar" onclick="iniciarWeb()">Abrir 💝</button>
+    </div>
+
+    <div class="container" id="contenido-principal">
         <h1>Para mi Princesita 💖</h1>
         
         <div class="mensaje">
@@ -87,7 +131,7 @@
             
             La verdad que cualquier día es bueno para regalar flores no simplemente en días especiales, espero que este detalle te guste o al menos pueda cubrir el sentimiento de querer unas flores. No te preocupes amor, no estoy acostumbrado a esto pero por ti puedo hacer lo que sea mi princesita.
             
-            Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envíe esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
+            Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envié esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
         </div>
 
         <!-- Ramo gigante usando emojis estilizados -->
@@ -100,31 +144,51 @@
         </div>
     </div>
 
+    <!-- Reproductor de audio oculto con el audio directo de la canción de Saiko -->
+    <audio id="musica-fondo" loop>
+        <source src="https://catbox.moe" type="audio/mpeg">
+        Tu navegador no soporta este formato de audio.
+    </audio>
+
     <script>
-        // Función para crear la lluvia continua de corazones
+        let lluviaInterval;
+
+        function iniciarWeb() {
+            // Ocultar pantalla de bienvenida
+            const pantalla = document.getElementById('pantalla-inicio');
+            pantalla.style.opacity = '0';
+            setTimeout(() => {
+                pantalla.style.display = 'none';
+                // Mostrar el contenido de la carta
+                document.getElementById('contenido-principal').style.display = 'block';
+            }, 500);
+
+            // Reproducir la canción "Cosas que no te dije"
+            const musica = document.getElementById('musica-fondo');
+            musica.volume = 0.4; // Ajusta el volumen aquí (de 0.0 a 1.0)
+            musica.play().catch(error => console.log("Error al reproducir audio:", error));
+
+            // Activar la lluvia de corazones continuamente
+            lluviaInterval = setInterval(crearCorazon, 300);
+        }
+
         function crearCorazon() {
             const corazon = document.createElement('div');
             corazon.classList.add('corazon');
             
-            // Variedad de emojis de corazones
             const tipos = ['💖', '💝', '❤️', '💕', '💗'];
             corazon.innerText = tipos[Math.floor(Math.random() * tipos.length)];
             
-            // Posición y tamaño aleatorio
             corazon.style.left = Math.random() * 100 + 'vw';
-            corazon.style.animationDuration = Math.random() * 3 + 2 + 's'; // Entre 2 y 5 segundos
+            corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
             corazon.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
             
             document.body.appendChild(corazon);
             
-            // Eliminar el corazón cuando termine de caer
             setTimeout(() => {
                 corazon.remove();
             }, 5000);
         }
-
-        // Generar corazones constantemente
-        setInterval(crearCorazon, 300);
     </script>
 
 </body>
