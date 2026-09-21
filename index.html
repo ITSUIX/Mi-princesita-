@@ -22,7 +22,7 @@
             padding: 20px;
             text-align: center;
         }
-        /* Pantalla de inicio limpia y segura */
+        /* Pantalla de inicio limpia y blindada */
         #pantalla-inicio {
             position: fixed;
             top: 0;
@@ -67,13 +67,14 @@
             z-index: 10;
             position: relative;
             display: none; 
+            margin-bottom: 20px;
         }
         h1 {
             color: #ff69b4;
             font-size: 2.2rem;
             margin-bottom: 10px;
         }
-        /* Animación del Girasol */
+        /* Animación del Girasol Fijo */
         .girasol-decorativo {
             width: 180px;
             height: 180px;
@@ -90,7 +91,7 @@
             margin-bottom: 30px;
         }
         
-        /* DISEÑO DE LA GALERÍA DE FOTOS */
+        /* DISEÑO DE LA GALERÍA DE FOTOS STYLE POLAROID */
         .galeria-titulo {
             color: #ff69b4;
             font-size: 1.6rem;
@@ -119,10 +120,10 @@
         }
         .foto-card img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
             border-radius: 4px;
-            background-color: #eee; /* Fondo gris mientras carga */
+            background-color: #ffd70033; /* Fondo amarillo tenue por si no carga la foto aún */
         }
 
         /* Efecto de lluvia de corazones */
@@ -227,21 +228,16 @@
         let lluviaInterval;
 
         function iniciarWeb() {
+            // Ocultar pantalla de inicio forzosamente
             document.getElementById('pantalla-inicio').style.display = 'none';
-            document.getElementById('contenido-principal').style.display = 'block';
+            
+            // Mostrar el contenedor de la carta y activar scroll completo
+            const container = document.getElementById('contenido-principal');
+            container.style.display = 'block';
+            document.body.style.overflow = 'auto';
 
+            // Activar música de fondo de forma segura
             const musica = document.getElementById('musica-fondo');
             musica.volume = 0.4;
             musica.play().catch(e => console.log("Error de audio:", e));
 
-            lluviaInterval = setInterval(crearCorazon, 300);
-        }
-
-        function crearCorazon() {
-            const corazon = document.createElement('div');
-            corazon.classList.add('corazon');
-            
-            const tipos = ['💖', '💝', '❤️', '💕', '💗'];
-            corazon.innerText = tipos[Math.floor(Math.random() * tipos.length)];
-            
-            corazon.style.left = Math.random() * 100 + 'vw';
