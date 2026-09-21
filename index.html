@@ -31,7 +31,7 @@
             width: 100%;
             height: 100%;
             background-color: #fff0f5;
-            z-index: 100; /* Se mantiene al frente al inicio */
+            z-index: 100; /* Asegura que esté al frente de todo */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,6 +51,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            position: relative;
+            z-index: 101; /* El botón se ubica por encima de su propio fondo */
         }
         .texto-inicio {
             color: #4a4a4a;
@@ -69,9 +71,10 @@
             align-items: center;
             justify-content: center;
             background-color: #fff0f5;
-            z-index: 40; /* Corregido: se oculta detrás de la pantalla de inicio */
+            z-index: 10; /* Se mantiene atrás hasta que se oculte el inicio */
             opacity: 1;
             transition: opacity 1.5s ease; 
+            pointer-events: none; /* Evita por completo bloquear clics */
         }
         .svg-flor {
             width: 300px;
@@ -108,7 +111,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
             border: 2px solid #ffb6c1;
-            z-index: 10;
+            z-index: 20;
             position: relative;
             display: none; 
             opacity: 0;
@@ -264,5 +267,3 @@
             const tipos = ['💖', '💝', '❤️', '💕', '💗'];
             corazon.innerText = tipos[Math.floor(Math.random() * tipos.length)];
             
-            corazon.style.left = Math.random() * 100 + 'vw';
-            corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
