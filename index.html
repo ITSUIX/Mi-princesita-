@@ -30,7 +30,7 @@
             width: 100%;
             height: 100%;
             background-color: #fff0f5;
-            z-index: 999; /* Máxima prioridad al inicio */
+            z-index: 999;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -71,22 +71,22 @@
         h1 {
             color: #ff69b4;
             font-size: 2.2rem;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+        /* Girasol reubicado arriba del texto */
+        .girasol-decorativo {
+            width: 180px;
+            height: 180px;
+            margin: 10px auto 20px auto;
+            display: block;
+            animation: suaveFlotar 4s ease-in-out infinite;
         }
         .mensaje {
             color: #4a4a4a;
             font-size: 1.1rem;
             line-height: 1.8;
-            margin-bottom: 10px;
             white-space: pre-line;
-        }
-        /* Animación del Girasol */
-        .girasol-decorativo {
-            width: 180px;
-            height: 180px;
-            margin: 20px auto 0 auto;
-            display: block;
-            animation: suaveFlotar 4s ease-in-out infinite;
+            text-align: center;
         }
         .petalo {
             fill: #ffd700;
@@ -111,7 +111,7 @@
             z-index: 1;
             pointer-events: none;
         }
-        /* Animaciones CSS estándares */
+        /* Animaciones CSS */
         @keyframes crecerPetalo {
             0% { transform: scale(0) rotate(var(--rotacion, 0deg)); }
             100% { transform: scale(1) rotate(var(--rotacion, 0deg)); }
@@ -134,7 +134,6 @@
 </head>
 <body>
 
-    <!-- PANTALLA DE INICIO (Completamente despejada) -->
     <div id="pantalla-inicio">
         <p class="texto-inicio">Dale clic para abrir tu detalle de amor 💖</p>
         <button class="btn-comenzar" onclick="iniciarWeb()">Abrir 💝</button>
@@ -144,6 +143,9 @@
     <div class="container" id="contenido-principal">
         <h1>Para mi Princesita 💖</h1>
         
+        <!-- El Girasol movido arriba del texto para impacto inmediato -->
+        <svg class="girasol-decorativo" viewBox="0 0 300 300" id="flor-arriba-svg"></svg>
+
         <div class="mensaje">
             Mi Niña preciosa💖, esto no es lo que estaba planeando para hoy pero estamos lejos, la verdad es que quería ir a dejarte un regalo y tus flores pero no se pudo. 
             
@@ -151,12 +153,8 @@
             
             Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envié esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
         </div>
-
-        <!-- El Girasol dinámico abajo del texto -->
-        <svg class="girasol-decorativo" viewBox="0 0 300 300" id="flor-abajo-svg"></svg>
     </div>
 
-    <!-- Reproductor de audio -->
     <audio id="musica-fondo" loop>
         <source src="musica.mp3.mp3" type="audio/mpeg">
         Tu navegador no soporta este formato de audio.
@@ -166,9 +164,8 @@
         let lluviaInterval;
         const totalPetalos = 24;
 
-        // Función para renderizar el hermoso girasol
         function construirGirasol() {
-            const svgElement = document.getElementById('flor-abajo-svg');
+            const svgElement = document.getElementById('flor-arriba-svg');
             
             for (let i = 0; i < totalPetalos; i++) {
                 const angle = (360 / totalPetalos) * i;
@@ -178,7 +175,6 @@
                 
                 path.style.setProperty('--rotacion', `${angle}deg`);
                 path.style.transform = `rotate(${angle}deg) scale(0)`;
-                // Retraso para simular florecimiento natural
                 path.style.animationDelay = `${i * 0.04}s`;
                 
                 svgElement.appendChild(path);
@@ -194,21 +190,16 @@
         }
 
         function iniciarWeb() {
-            // Ocultar botón inmediatamente
             document.getElementById('pantalla-inicio').style.display = 'none';
-            
-            // Mostrar la carta de amor 
             document.getElementById('contenido-principal').style.display = 'block';
             
-            // Renderizar y activar el florecimiento del Girasol abajo
+            // Iniciar florecimiento arriba
             construirGirasol();
 
-            // Activar la canción
             const musica = document.getElementById('musica-fondo');
             musica.volume = 0.4;
             musica.play().catch(e => console.log("Error de audio:", e));
 
-            // Iniciar lluvia de corazones
             lluviaInterval = setInterval(crearCorazon, 300);
         }
 
