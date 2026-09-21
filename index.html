@@ -73,13 +73,13 @@
             font-size: 2.2rem;
             margin-bottom: 10px;
         }
-        /* Girasol animado */
+        /* Animación del Girasol Fijo */
         .girasol-decorativo {
             width: 180px;
             height: 180px;
             margin: 10px auto 20px auto;
             display: block;
-            animation: suaveFlotar 4s ease-in-out infinite;
+            animation: suaveFlotar 4s ease-in-out infinite, nacerFlor 2s ease-out forwards;
         }
         .mensaje {
             color: #4a4a4a;
@@ -87,20 +87,6 @@
             line-height: 1.8;
             white-space: pre-line;
             text-align: center;
-        }
-        .petalo {
-            fill: #ffd700;
-            stroke: #ffa500;
-            stroke-width: 1;
-            transform-origin: 150px 150px;
-            transform: scale(0);
-            animation: crecerPetalo 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        .centro-flor {
-            fill: #8b4513;
-            transform-origin: 150px 150px;
-            transform: scale(0);
-            animation: crecerCentro 1.8s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         /* Efecto de lluvia de corazones */
         .corazon {
@@ -112,12 +98,9 @@
             pointer-events: none;
         }
         /* Animaciones CSS */
-        @keyframes crecerPetalo {
-            0% { transform: scale(0) rotate(var(--rotacion, 0deg)); }
-            100% { transform: scale(1) rotate(var(--rotacion, 0deg)); }
-        }
-        @keyframes crecerCentro {
-            to { transform: scale(1); }
+        @keyframes nacerFlor {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
         }
         @keyframes caer {
             to { transform: translateY(110vh) translateX(50px); }
@@ -143,8 +126,28 @@
     <div class="container" id="contenido-principal">
         <h1>Para mi Princesita 💖</h1>
         
-        <!-- El Girasol arriba del texto -->
-        <svg class="girasol-decorativo" viewBox="0 0 300 300" id="flor-arriba-svg"></svg>
+        <!-- El Girasol Directo en HTML (Inmune a fallos de código) -->
+        <svg class="girasol-decorativo" viewBox="0 0 300 300">
+            <g stroke="#ffa500" stroke-width="1" fill="#ffd700">
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(0 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(22.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(45 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(67.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(90 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(112.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(135 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(157.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(180 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(202.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(225 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(247.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(270 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(292.5 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(315 150 150)" />
+                <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(337.5 150 150)" />
+            </g>
+            <circle cx="150" cy="150" r="45" fill="#8b4513" />
+        </svg>
 
         <div class="mensaje">
             Mi Niña preciosa💖, esto no es lo que estaba planeando para hoy pero estamos lejos, la verdad es que quería ir a dejarte un regalo y tus flores pero no se pudo. 
@@ -162,38 +165,10 @@
 
     <script>
         let lluviaInterval;
-        const totalPetalos = 24;
-
-        function construirGirasol() {
-            const svgElement = document.getElementById('flor-arriba-svg');
-            
-            for (let i = 0; i < totalPetalos; i++) {
-                const angle = (360 / totalPetalos) * i;
-                const path = document.createElementNS("http://w3.org", "path");
-                path.setAttribute("d", "M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z");
-                path.classList.add('petalo');
-                
-                path.style.setProperty('--rotacion', `${angle}deg`);
-                path.style.transform = `rotate(${angle}deg) scale(0)`;
-                path.style.animationDelay = `${i * 0.04}s`;
-                
-                svgElement.appendChild(path);
-            }
-
-            const centro = document.createElementNS("http://w3.org", "circle");
-            centro.setAttribute("cx", "150");
-            centro.setAttribute("cy", "150");
-            centro.setAttribute("r", "45");
-            centro.classList.add('centro-flor');
-            centro.style.animationDelay = '0.5s';
-            svgElement.appendChild(centro);
-        }
 
         function iniciarWeb() {
             document.getElementById('pantalla-inicio').style.display = 'none';
             document.getElementById('contenido-principal').style.display = 'block';
-            
-            construirGirasol();
 
             const musica = document.getElementById('musica-fondo');
             musica.volume = 0.4;
