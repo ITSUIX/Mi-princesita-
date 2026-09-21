@@ -73,7 +73,7 @@
             font-size: 2.2rem;
             margin-bottom: 10px;
         }
-        /* Girasol reubicado arriba del texto */
+        /* Girasol animado */
         .girasol-decorativo {
             width: 180px;
             height: 180px;
@@ -143,7 +143,7 @@
     <div class="container" id="contenido-principal">
         <h1>Para mi Princesita 💖</h1>
         
-        <!-- El Girasol arriba del texto para impacto inmediato -->
+        <!-- El Girasol arriba del texto -->
         <svg class="girasol-decorativo" viewBox="0 0 300 300" id="flor-arriba-svg"></svg>
 
         <div class="mensaje">
@@ -193,7 +193,6 @@
             document.getElementById('pantalla-inicio').style.display = 'none';
             document.getElementById('contenido-principal').style.display = 'block';
             
-            // Iniciar florecimiento arriba de forma segura
             construirGirasol();
 
             const musica = document.getElementById('musica-fondo');
