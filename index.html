@@ -13,7 +13,7 @@
         body {
             background-color: #fff0f5;
             font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Evita scrolls raros durante la animación */
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -72,13 +72,21 @@
             background-color: #fff0f5;
             z-index: 50;
             opacity: 1;
-            transition: opacity 1.5s ease; /* Efecto desvanecer al final */
+            transition: opacity 1.5s ease; 
         }
         .svg-flor {
             width: 300px;
             height: 300px;
         }
-        /* Estilos de los pétalos para la animación */
+        /* Girasol decorativo debajo de la carta */
+        .girasol-decorativo {
+            width: 180px;
+            height: 180px;
+            margin: 10px auto 0 auto;
+            display: block;
+            animation: suaveFlotar 4s ease-in-out infinite;
+        }
+        /* Estilos de los pétalos */
         .petalo {
             fill: #ffd700;
             stroke: #ffa500;
@@ -116,7 +124,7 @@
             color: #4a4a4a;
             font-size: 1.1rem;
             line-height: 1.8;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             white-space: pre-line;
         }
         /* Efecto de lluvia de corazones */
@@ -130,8 +138,8 @@
         }
         /* Animaciones CSS */
         @keyframes crecerPetalo {
-            0% { transform: scale(0) rotate(var(--rotacion)); }
-            100% { transform: scale(1) rotate(var(--rotacion)); }
+            0% { transform: scale(0) rotate(var(--rotacion, 0deg)); }
+            100% { transform: scale(1) rotate(var(--rotacion, 0deg)); }
         }
         @keyframes crecerCentro {
             to { transform: scale(1); }
@@ -143,17 +151,20 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.08); }
         }
+        @keyframes suaveFlotar {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Pantalla previa obligatoria para activar música -->
     <div id="pantalla-inicio">
         <p class="texto-inicio">Dale clic para abrir tu detalle de amor 💖</p>
         <button class="btn-comenzar" onclick="iniciarWeb()">Abrir 💝</button>
     </div>
 
-    <!-- ESCENA INTERMEDIA: Flor Amarilla Creciendo -->
+    <!-- ESCENA INTERMEDIA: Flor Inicial -->
     <div id="escena-flor">
         <svg class="svg-flor" viewBox="0 0 300 300" id="flor-svg"></svg>
     </div>
@@ -169,9 +180,11 @@
             
             Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envié esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
         </div>
+
+        <!-- El Girasol abajo de la carta -->
+        <svg class="girasol-decorativo" viewBox="0 0 300 300" id="flor-abajo-svg"></svg>
     </div>
 
-    <!-- Reproductor de audio local -->
     <audio id="musica-fondo" loop>
         <source src="musica.mp3.mp3" type="audio/mpeg">
         Tu navegador no soporta este formato de audio.
@@ -179,37 +192,47 @@
 
     <script>
         let lluviaInterval;
-
-        // Generar dinámicamente 24 pétalos perfectos en forma geométrica
-        const svg = document.getElementById('flor-svg');
         const totalPetalos = 24;
-        
-        for (let i = 0; i < totalPetalos; i++) {
-            const angle = (360 / totalPetalos) * i;
-            const path = document.createElementNS("http://w3.org", "path");
-            // Geometría estilizada de un pétalo elegante
-            path.setAttribute("d", "M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z");
-            path.classList.add('petalo');
-            path.style.setProperty('--rotacion', `${angle}deg`);
-            // Retraso escalonado pequeño para que parezca que abre de forma orgánica
-            path.style.animationDelay = `${i * 0.05}s`;
-            svg.appendChild(path);
+
+        // Función para construir la geometría del girasol de forma exacta
+        function construirGirasol(svgElement, conRetrasoAnimate) {
+            for (let i = 0; i < totalPetalos; i++) {
+                const angle = (360 / totalPetalos) * i;
+                const path = document.createElementNS("http://w3.org", "path");
+                path.setAttribute("d", "M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z");
+                path.classList.add('petalo');
+                
+                path.style.setProperty('--rotacion', `${angle}deg`);
+                path.style.transform = `rotate(${angle}deg) scale(0)`;
+                
+                if (conRetrasoAnimate) {
+                    path.style.animationDelay = `${i * 0.03}s`;
+                } else {
+                    path.style.animationDelay = '0s';
+                }
+                svgElement.appendChild(path);
+            }
+
+            const centro = document.createElementNS("http://w3.org", "circle");
+            centro.setAttribute("cx", "150");
+            centro.setAttribute("cy", "150");
+            centro.setAttribute("r", "45");
+            centro.classList.add('centro-flor');
+            if (!conRetrasoAnimate) centro.style.animationDelay = '0s';
+            svgElement.appendChild(centro);
         }
 
-        // Crear el centro marrón del girasol
-        const centro = document.createElementNS("http://w3.org", "circle");
-        centro.setAttribute("cx", "150");
-        centro.setAttribute("cy", "150");
-        centro.setAttribute("r", "45");
-        centro.classList.add('centro-flor');
-        svg.appendChild(centro);
+        // Construir ambos girasoles
+        const svgInicial = document.getElementById('flor-svg');
+        const svgAbajo = document.getElementById('flor-abajo-svg');
+        
+        construirGirasol(svgInicial, true);  // El inicial florece escalonado
+        construirGirasol(svgAbajo, false);  // El de abajo florece de inmediato al mostrar la carta
 
         function iniciarWeb() {
-            // 1. Ocultar botón de inicio de inmediato
             const pantallaInicio = document.getElementById('pantalla-inicio');
             pantallaInicio.style.opacity = '0';
             
-            // 2. Encender música
             const musica = document.getElementById('musica-fondo');
             musica.volume = 0.4;
             musica.play().catch(e => console.log("Error de audio:", e));
@@ -217,28 +240,23 @@
             setTimeout(() => {
                 pantallaInicio.style.display = 'none';
                 
-                // 3. Mostrar escena de la flor naciendo
                 const escenaFlor = document.getElementById('escena-flor');
                 escenaFlor.style.display = 'flex';
 
-                // 4. Esperar 4.5 segundos (tiempo para que la flor crezca completa y hermosa) y desvanecerla
                 setTimeout(() => {
-                    escenaFlor.style.opacity = '0'; // Comienza el desvanecido continuo
+                    escenaFlor.style.opacity = '0'; 
 
                     setTimeout(() => {
                         escenaFlor.style.display = 'none';
                         
-                        // 5. Mostrar la carta de amor con una transición suave
                         const carta = document.getElementById('contenido-principal');
                         carta.style.display = 'block';
-                        // Pequeño truco de tiempo para activar la animación de opacidad
                         setTimeout(() => { carta.style.opacity = '1'; }, 50);
 
-                        // 6. Activar la mágica lluvia eterna de corazones
                         lluviaInterval = setInterval(crearCorazon, 300);
-                        document.body.style.overflowY = 'auto'; // Permitir scroll para leer el mensaje completo
-                    }, 1500); // Duración de la transición de desaparición de la flor
-                }, 4500);
+                        document.body.style.overflowY = 'auto'; 
+                    }, 1500); 
+                }, 4000); 
             }, 500);
         }
 
@@ -250,13 +268,3 @@
             corazon.innerText = tipos[Math.floor(Math.random() * tipos.length)];
             
             corazon.style.left = Math.random() * 100 + 'vw';
-            corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
-            corazon.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
-            
-            document.body.appendChild(corazon);
-            
-            setTimeout(() => { corazon.remove(); }, 5000);
-        }
-    </script>
-</body>
-</html>
