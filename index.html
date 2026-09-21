@@ -73,7 +73,7 @@
             font-size: 2.2rem;
             margin-bottom: 10px;
         }
-        /* Animación del Girasol Fijo */
+        /* Animación del Girasol */
         .girasol-decorativo {
             width: 180px;
             height: 180px;
@@ -87,7 +87,44 @@
             line-height: 1.8;
             white-space: pre-line;
             text-align: center;
+            margin-bottom: 30px;
         }
+        
+        /* DISEÑO DE LA GALERÍA DE FOTOS */
+        .galeria-titulo {
+            color: #ff69b4;
+            font-size: 1.6rem;
+            margin: 25px 0 15px 0;
+            border-top: 1px dashed #ffb6c1;
+            padding-top: 20px;
+        }
+        .grid-fotos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .foto-card {
+            background: white;
+            padding: 10px;
+            padding-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: rotate(var(--rotar-foto));
+            transition: transform 0.3s ease;
+        }
+        .foto-card:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 20;
+        }
+        .foto-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            background-color: #eee; /* Fondo gris mientras carga */
+        }
+
         /* Efecto de lluvia de corazones */
         .corazon {
             position: fixed;
@@ -126,7 +163,7 @@
     <div class="container" id="contenido-principal">
         <h1>Para mi Princesita 💖</h1>
         
-        <!-- El Girasol Directo en HTML (Inmune a fallos de código) -->
+        <!-- El Girasol Directo en HTML -->
         <svg class="girasol-decorativo" viewBox="0 0 300 300">
             <g stroke="#ffa500" stroke-width="1" fill="#ffd700">
                 <path d="M150,150 C120,70 140,20 150,20 C160,20 180,70 150,150 Z" transform="rotate(0 150 150)" />
@@ -155,6 +192,29 @@
             La verdad que cualquier día es bueno para regalar flores no simplemente en días especiales, espero que este detalle te guste o al menos pueda cubrir el sentimiento de querer unas flores. No te preocupes amor, no estoy acostumbrado a esto pero por ti puedo hacer lo que sea mi princesita.
             
             Espero te guste este detalle, te amo mucho mucho mucho mi amor. De seguro cuando te envié esto, estarás durmiendo, pero te amo mi amor, no quiero que te sientas menos que otras personas por el simple hecho de que no tenés lo mismo, porque tenés muchísimo más de lo que ellas pueden recibir, muack te amo mi amor, tendrás algo mejor. 💖
+        </div>
+
+        <!-- SECCIÓN DE NUESTRAS MEMORIAS -->
+        <h2 class="galeria-titulo">Nuestros Momentos Juntos 💕</h2>
+        <div class="grid-fotos">
+            <div class="foto-card" style="--rotar-foto: -3deg;">
+                <img src="foto1.jpg" alt="Momento 1">
+            </div>
+            <div class="foto-card" style="--rotar-foto: 4deg;">
+                <img src="foto2.jpg" alt="Momento 2">
+            </div>
+            <div class="foto-card" style="--rotar-foto: -2deg;">
+                <img src="foto3.jpg" alt="Momento 3">
+            </div>
+            <div class="foto-card" style="--rotar-foto: 3deg;">
+                <img src="foto4.jpg" alt="Momento 4">
+            </div>
+            <div class="foto-card" style="--rotar-foto: -4deg;">
+                <img src="foto5.jpg" alt="Momento 5">
+            </div>
+            <div class="foto-card" style="--rotar-foto: 2deg;">
+                <img src="foto6.jpg" alt="Momento 6">
+            </div>
         </div>
     </div>
 
@@ -185,13 +245,3 @@
             corazon.innerText = tipos[Math.floor(Math.random() * tipos.length)];
             
             corazon.style.left = Math.random() * 100 + 'vw';
-            corazon.style.animationDuration = Math.random() * 3 + 2 + 's';
-            corazon.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
-            
-            document.body.appendChild(corazon);
-            
-            setTimeout(() => { corazon.remove(); }, 5000);
-        }
-    </script>
-</body>
-</html>
